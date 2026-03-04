@@ -6,6 +6,17 @@ var builder = WebApplication.CreateBuilder(args);
 // Add Services to the container
 builder.Services.AddEndpointsApiExplorer();
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy
+            .WithOrigins("http://localhost:4200") // Allow requests from local dev front-end
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddScoped<TripPlannerService>(); // Register the trip planner service
@@ -21,5 +32,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.MapControllers();
+app.UseCors(); // Apply CORS middleware
 
 app.Run();
