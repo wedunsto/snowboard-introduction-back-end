@@ -22,9 +22,14 @@ public class TripPlannerController: ControllerBase {
             var newTripPlan = await _tripPlannerService.createTrip(request);
             return Created("", newTripPlan); // 201 for successful trip plan creation
         }
-        catch (Exception)
+        catch (ArgumentException ex)
         {
-            return StatusCode(500, new { message = "An unexpected error occurred"});
+            return BadRequest(new { message = ex.Message }); // 400 Bad Request error
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+            return StatusCode(500, new { message = ex.Message});
         }
     }
 }

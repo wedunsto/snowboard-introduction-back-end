@@ -1,7 +1,10 @@
 using Microsoft.EntityFrameworkCore;
+using SnowboardStarter.Backend.Data;
 using SnowboardStarter.Backend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var connString = builder.Configuration.GetConnectionString("Default");
 
 // Add Services to the container
 builder.Services.AddEndpointsApiExplorer();
@@ -18,8 +21,10 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddSwaggerGen();
-builder.Services.AddControllers();
 builder.Services.AddScoped<TripPlannerService>(); // Register the trip planner service
+
+builder.Services.AddDbContext<AppDbContext>(opt => opt.UseNpgsql(connString));
+builder.Services.AddControllers();
 
 var app = builder.Build();
 

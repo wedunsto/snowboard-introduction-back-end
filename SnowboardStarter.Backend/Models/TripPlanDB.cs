@@ -7,23 +7,25 @@ namespace SnowboardStarter.Backend.Models;
 public class Trip
 {
     [Key]
-    [Required]
-    public string id { get; set; } = default;
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public long id { get; set; } // maps to BigSerial
 
     [Required]
+    [Column("destination")]
     public string Destination { get; set; } = default!;
 
     [Required]
-    public DateTime ArrivalDate { get; set; } = default!;
+    [Column("arrival_date")]
+    public DateTimeOffset ArrivalDate { get; set; }
 
     [Required]
-    public DateTime DepartureDate { get; set; } = default!;
+    [Column("departure_date")]
+    public DateTimeOffset DepartureDate { get; set; }
 
     [Required]
-    public decimal Budget { get; set; } = default!;
+    [Column("budget")]
+    public decimal Budget { get; set; }
 
+    [Column("completed")]
     public bool Completed {get; set; } = false;
-
-    public DateTimeOffset created_at { get; set; } = DateTimeOffset.UtcNow;
-    public DateTimeOffset updated_at { get; set; } = DateTimeOffset.UtcNow;
 }
