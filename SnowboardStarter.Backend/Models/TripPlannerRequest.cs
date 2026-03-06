@@ -2,7 +2,7 @@ namespace SnowboardStarter.Backend.Models;
 
 public sealed record TripPlannerRequest(
     string destination,
-    DateTime arrivalDate,
-    DateTime departureDate,
+    DateTimeOffset arrivalDate,
+    DateTimeOffset departureDate,
     decimal budget
 );

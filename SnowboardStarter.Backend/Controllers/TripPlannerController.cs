@@ -28,7 +28,24 @@ public class TripPlannerController: ControllerBase {
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.ToString());
+            return StatusCode(500, new { message = ex.Message});
+        }
+    }
+
+    [HttpGet("getTrips")]
+    public async Task<IActionResult> GetTrips()
+    {
+        try
+        {
+            var tripPlans = await _tripPlannerService.getTrips();
+            return Ok(tripPlans);
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new { message = ex.Message }); // 400 Bad Request error
+        }
+        catch (Exception ex)
+        {
             return StatusCode(500, new { message = ex.Message});
         }
     }

@@ -36,4 +36,22 @@ public class TripPlannerService
 
         return tripResponse;
     }
+
+    // Business logic used to handle GET trip plan requests
+    public async Task<TripPlannerResponse[]> getTrips()
+    {
+        var tripPlans = await _db.Trips
+            .AsNoTracking()
+            .ToListAsync();
+
+        return tripPlans.Select(trip => new TripPlannerResponse
+        {
+            id = trip.id,
+            Destination = trip.Destination,
+            ArrivalDate = trip.ArrivalDate,
+            DepartureDate = trip.DepartureDate,
+            Budget = trip.Budget,
+            Completed = trip.Completed
+        }).ToArray();
+    }
 }
